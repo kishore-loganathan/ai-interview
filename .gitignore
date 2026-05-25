@@ -1,0 +1,27 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Logs
+*.log
+server.log
+server.pid
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads (user-generated content)
+backend/uploads/
+
+# IDE
+.vscode/
+.idea/
