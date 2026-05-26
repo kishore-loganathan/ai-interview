@@ -1,0 +1,22 @@
+{
+  "name": "ai-interview-app",
+  "version": "1.0.0",
+  "description": "AI Interview Platform",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "cd backend && node index.js",
+    "build": "cd backend && npm install",
+    "dev": "cd backend && node index.js",
+    "install-backend": "cd backend && npm install",
+    "install-frontend": "cd mock && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kishore-loganathan/ai-interview.git"
+  },
+  "author": "Kishore Loganathan",
+  "license": "MIT"
+}
