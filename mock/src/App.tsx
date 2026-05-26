@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NavBar from "./home/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 
 // Pages
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -14,6 +15,13 @@ import Profile from "./pages/Profile/Profile";
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
+
+// Admin Pages
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminUsers from "./pages/Admin/AdminUsers";
+import AdminInterviews from "./pages/Admin/AdminInterviews";
+import AdminEvaluations from "./pages/Admin/AdminEvaluations";
+import AdminAnalytics from "./pages/Admin/AdminAnalytics";
 
 const App = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
@@ -34,6 +42,14 @@ const App = () => {
           {/* Public Routes - Auth Pages */}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+
+          {/* Admin Routes - Separate Layout */}
+          <Route path="/admin/dashboard" element={<ProtectedRoute><AdminRoute><AdminDashboard /></AdminRoute></ProtectedRoute>} />
+          <Route path="/admin/users" element={<ProtectedRoute><AdminRoute><AdminUsers /></AdminRoute></ProtectedRoute>} />
+          <Route path="/admin/interviews" element={<ProtectedRoute><AdminRoute><AdminInterviews /></AdminRoute></ProtectedRoute>} />
+          <Route path="/admin/evaluations" element={<ProtectedRoute><AdminRoute><AdminEvaluations /></AdminRoute></ProtectedRoute>} />
+          <Route path="/admin/analytics" element={<ProtectedRoute><AdminRoute><AdminAnalytics /></AdminRoute></ProtectedRoute>} />
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
 
           {/* Protected Routes - Require Authentication */}
           <Route

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { MicIcon, MicOffIcon, Volume2Icon, VolumeXIcon, FileTextIcon, Settings2 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ const InterviewPage = () => {
     difficulty, 
     interviewType, 
     numberOfQuestions,
-    voiceInterviewMode,
+    voiceInterviewMode: _voiceInterviewMode,
     interviewMode // 'speak' or 'written'
   } = location.state || {};
 
@@ -28,7 +28,7 @@ const InterviewPage = () => {
   // Voice-related states
   const [isListening, setIsListening] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
-  const [speechSupported, setSpeechSupported] = useState<boolean>(true); // Google API always supported
+  const [speechSupported] = useState<boolean>(true); // Google API always supported
   const [speechError, setSpeechError] = useState<string | null>(null);
   const [availableVoices, setAvailableVoices] = useState<{ name: string; ssmlGender: string }[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<string>('en-US-Neural2-D');
@@ -71,11 +71,20 @@ const InterviewPage = () => {
       });
   }, []);
 
-  // Speak question when it changes
+  // Speak question when it changes (only if not manually stopped)
   useEffect(() => {
     if (isSpeakMode && questions.length > 0 && !loading) {
+      // Auto-speak the new question when navigating
       speakText(questions[currentQuestionIndex]);
     }
+    // Cleanup: stop speaking when component unmounts or question changes
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+        setIsSpeaking(false);
+      }
+    };
   }, [currentQuestionIndex, questions, isSpeakMode, loading]);
 
   // Google Cloud TTS — plays audio from backend
@@ -148,6 +157,13 @@ const InterviewPage = () => {
       return;
     }
 
+    // Stop AI speaking when user starts recording
+    if (isSpeaking && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+      setIsSpeaking(false);
+    }
+
     try {
       setSpeechError(null);
       setInterimTranscript('Listening...');
@@ -167,9 +183,9 @@ const InterviewPage = () => {
 
         try {
           const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm;codecs=opus' });
-          const base64 = await blobToBase64(audioBlob);
-
-          const data = await speechAPI.stt(base64);
+          
+          // Send blob directly (no base64 conversion needed)
+          const data = await speechAPI.stt(audioBlob);
 
           if (data.success && data.transcript) {
             setCurrentAnswer(prev => prev + (prev ? ' ' : '') + data.transcript);
@@ -194,18 +210,6 @@ const InterviewPage = () => {
       setIsListening(false);
       setInterimTranscript('');
     }
-  };
-
-  const blobToBase64 = (blob: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = (reader.result as string).split(',')[1];
-        resolve(base64);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
   };
 
   const toggleSpeaking = () => {
@@ -408,7 +412,7 @@ const InterviewPage = () => {
                   <div className="text-sm text-gray-400">
                     {speechSupported
                       ? selectedVoice
-                        ? `Voice: ${selectedVoice.name}`
+                        ? `Voice: ${selectedVoice}`
                         : "Use voice to answer or type as fallback"
                       : "Voice unavailable - you can type your answers"}
                   </div>

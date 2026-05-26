@@ -27,7 +27,6 @@ import {
   TrophyIcon, 
   TargetIcon, 
   GridIcon,
-  ArrowRightIcon,
   Loader2,
   Flame
 } from "lucide-react";

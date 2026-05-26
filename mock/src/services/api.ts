@@ -204,15 +204,70 @@ export const speechAPI = {
     return response.data;
   },
 
-  // Speech to Text — sends base64 audio, returns transcript
-  stt: async (audioBase64: string) => {
-    const response = await api.post('/speech/stt', { audio: audioBase64 });
+  // Speech to Text — sends audio file via multipart/form-data
+  stt: async (audioBlob: Blob) => {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'recording.webm');
+    
+    const response = await api.post('/speech/stt', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
 
   // List available Google voices
   listVoices: async () => {
     const response = await api.get('/speech/voices');
+    return response.data;
+  },
+};
+
+// Admin API calls
+export const adminAPI = {
+  // Dashboard stats
+  getDashboardStats: async () => {
+    const response = await api.get('/admin/dashboard/stats');
+    return response.data;
+  },
+
+  // Users
+  getAllUsers: async () => {
+    const response = await api.get('/admin/users');
+    return response.data;
+  },
+
+  updateUserStatus: async (userId: string, status: string) => {
+    const response = await api.patch(`/admin/users/${userId}/status`, { status });
+    return response.data;
+  },
+
+  updateUserRole: async (userId: string, role: string) => {
+    const response = await api.patch(`/admin/users/${userId}/role`, { role });
+    return response.data;
+  },
+
+  deleteUser: async (userId: string) => {
+    const response = await api.delete(`/admin/users/${userId}`);
+    return response.data;
+  },
+
+  // Interviews
+  getAllInterviews: async () => {
+    const response = await api.get('/admin/interviews');
+    return response.data;
+  },
+
+  // AI Evaluations
+  getAIEvaluations: async () => {
+    const response = await api.get('/admin/evaluations');
+    return response.data;
+  },
+
+  // Analytics
+  getAnalytics: async () => {
+    const response = await api.get('/admin/analytics');
     return response.data;
   },
 };
