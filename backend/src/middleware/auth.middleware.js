@@ -22,4 +22,28 @@ const protect = async (req, res, next) => {
     }
 };
 
-module.exports = { protect };
+// Middleware to check if user is admin
+const adminOnly = async (req, res, next) => {
+    if (req.user && (req.user.role === 'admin' || req.user.role === 'superadmin')) {
+        next();
+    } else {
+        res.status(403).json({ 
+            success: false, 
+            error: 'Access denied. Admin privileges required.' 
+        });
+    }
+};
+
+// Middleware to check if user is superadmin
+const superAdminOnly = async (req, res, next) => {
+    if (req.user && req.user.role === 'superadmin') {
+        next();
+    } else {
+        res.status(403).json({ 
+            success: false, 
+            error: 'Access denied. Super admin privileges required.' 
+        });
+    }
+};
+
+module.exports = { protect, adminOnly, superAdminOnly };

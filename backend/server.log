@@ -1,3 +1,61 @@
 ◇ injected env (4) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
 🚀 Backend server running at http://localhost:3001
 MongoDB Connected: in-aws-shard-00-01.pyo2s.mongodb.net
+TokenExpiredError: jwt expired
+    at /Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:190:21
+    at getSecret (/Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:97:14)
+    at module.exports [as verify] (/Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:101:10)
+    at protect (/Users/kishore/Desktop/ai-interview/backend/src/middleware/auth.middleware.js:10:33)
+    at Layer.handleRequest (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/layer.js:152:17)
+    at /Users/kishore/Desktop/ai-interview/backend/node_modules/router/index.js:295:15 {
+  expiredAt: 2026-05-25T13:03:12.000Z
+}
+TokenExpiredError: jwt expired
+    at /Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:190:21
+    at getSecret (/Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:97:14)
+    at module.exports [as verify] (/Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:101:10)
+    at protect (/Users/kishore/Desktop/ai-interview/backend/src/middleware/auth.middleware.js:10:33)
+    at Layer.handleRequest (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/layer.js:152:17)
+    at /Users/kishore/Desktop/ai-interview/backend/node_modules/router/index.js:295:15 {
+  expiredAt: 2026-05-25T13:03:12.000Z
+}
+TokenExpiredError: jwt expired
+    at /Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:190:21
+    at getSecret (/Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:97:14)
+    at module.exports [as verify] (/Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:101:10)
+    at protect (/Users/kishore/Desktop/ai-interview/backend/src/middleware/auth.middleware.js:10:33)
+    at Layer.handleRequest (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/layer.js:152:17)
+    at /Users/kishore/Desktop/ai-interview/backend/node_modules/router/index.js:295:15 {
+  expiredAt: 2026-05-25T13:03:12.000Z
+}
+TokenExpiredError: jwt expired
+    at /Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:190:21
+    at getSecret (/Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:97:14)
+    at module.exports [as verify] (/Users/kishore/Desktop/ai-interview/backend/node_modules/jsonwebtoken/verify.js:101:10)
+    at protect (/Users/kishore/Desktop/ai-interview/backend/src/middleware/auth.middleware.js:10:33)
+    at Layer.handleRequest (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/kishore/Desktop/ai-interview/backend/node_modules/router/lib/layer.js:152:17)
+    at /Users/kishore/Desktop/ai-interview/backend/node_modules/router/index.js:295:15 {
+  expiredAt: 2026-05-25T13:03:12.000Z
+}
+Failed to parse Groq response: ["Implement a React Hook to handle infinite scrolling without using any external libraries or dependencies.", "Write a function to optimize the performance of a React component tree by minimizing the number of re-renders.", "Design a React component architecture for a complex e-commerce application with multiple features and features flags.", "Describe how to implement internationalization (i18n) and localization (L10n) in a React application.", "[Implement a React memoization technique using the `useCallback` and `memo` hooks to optimize the performance of a function component that renders a complex list of items.]"
+Error: Invalid JSON response from AI
+Error: request entity too large
+Error: request entity too large
+Error: request entity too large
+Error: request entity too large

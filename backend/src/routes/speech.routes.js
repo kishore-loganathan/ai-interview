@@ -1,7 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const { synthesizeSpeech, recognizeSpeech, listVoices } = require('../services/google-speech.service');
 const { protect } = require('../middleware/auth.middleware');
+
+// Configure multer for memory storage (audio files)
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit
+});
 
 // POST /api/speech/tts — Text to Speech
 router.post('/tts', protect, async (req, res) => {
@@ -30,15 +37,24 @@ router.post('/tts', protect, async (req, res) => {
 });
 
 // POST /api/speech/stt — Speech to Text
-router.post('/stt', protect, async (req, res) => {
+// Supports both base64 JSON and multipart file upload
+router.post('/stt', protect, upload.single('audio'), async (req, res) => {
     try {
-        const { audio, languageCode } = req.body;
+        let audioBase64;
 
-        if (!audio) {
+        // Check if file was uploaded via multipart
+        if (req.file) {
+            // Convert buffer to base64
+            audioBase64 = req.file.buffer.toString('base64');
+        } else if (req.body.audio) {
+            // Use base64 from JSON body (backward compatibility)
+            audioBase64 = req.body.audio;
+        } else {
             return res.status(400).json({ success: false, error: 'Audio data is required' });
         }
 
-        const transcript = await recognizeSpeech(audio, languageCode || 'en-US');
+        const languageCode = req.body.languageCode || 'en-US';
+        const transcript = await recognizeSpeech(audioBase64, languageCode);
 
         res.json({ success: true, transcript });
     } catch (error) {

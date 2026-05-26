@@ -63,7 +63,11 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ success: false, error: 'User already exists' });
         }
 
-        const user = await User.create({ name, email, password });
+        // Check if this is the first user - make them admin
+        const userCount = await User.countDocuments();
+        const role = userCount === 0 ? 'admin' : 'user';
+
+        const user = await User.create({ name, email, password, role });
 
         const accessToken = generateAccessToken(user._id);
         const refreshToken = generateRefreshToken(user._id);
@@ -72,6 +76,11 @@ const registerUser = async (req, res) => {
         user.refreshToken = refreshToken;
         await user.save();
 
+        // Log if first user was made admin
+        if (role === 'admin') {
+            console.log(`🎉 First user registered as admin: ${email}`);
+        }
+
         res.status(201).json({
             success: true,
             accessToken,
@@ -79,7 +88,8 @@ const registerUser = async (req, res) => {
             user: {
                 _id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                role: user.role
             }
         });
     } catch (error) {
@@ -115,7 +125,8 @@ const loginUser = async (req, res) => {
                 user: {
                     _id: user._id,
                     name: user.name,
-                    email: user.email
+                    email: user.email,
+                    role: user.role
                 }
             });
         } else {
@@ -308,6 +319,40 @@ const uploadProfilePicture = async (req, res) => {
     }
 };
 
+// @desc    Get current user
+const getCurrentUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).select('-password -refreshToken');
+        
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        res.json({
+            success: true,
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                phone: user.phone,
+                location: user.location,
+                profilePicture: user.profilePicture,
+                primarySkill: user.primarySkill,
+                difficulty: user.difficulty,
+                notifications: user.notifications,
+                createdAt: user.createdAt
+            }
+        });
+    } catch (error) {
+        console.error('Get current user error:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: 'Something went wrong while fetching user data' 
+        });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
@@ -316,5 +361,6 @@ module.exports = {
     changePassword,
     updateProfile,
     uploadProfilePicture,
+    getCurrentUser,
     upload  // Export multer middleware
 };

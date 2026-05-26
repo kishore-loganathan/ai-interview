@@ -6,6 +6,7 @@ const connectDB = require('./src/config/db');
 const interviewRoutes = require('./src/routes/interview.routes');
 const authRoutes = require('./src/routes/auth.routes');
 const speechRoutes = require('./src/routes/speech.routes');
+const adminRoutes = require('./src/routes/admin.routes');
 const errorHandler = require('./src/middleware/error.middleware');
 
 const app = express();
@@ -27,7 +28,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.json());
+// Increase body size limit for audio uploads (50MB)
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -40,6 +43,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/interview', interviewRoutes);
 app.use('/api/speech', speechRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);
