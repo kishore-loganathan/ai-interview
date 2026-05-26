@@ -145,7 +145,7 @@ const AdminUsers = () => {
               { role: 'admin', label: 'Admins', color: 'text-purple-400 bg-purple-400/10', icon: Shield },
               { role: 'user', label: 'Users', color: 'text-blue-400 bg-blue-400/10', icon: User },
               { role: 'superadmin', label: 'Super Admins', color: 'text-red-400 bg-red-400/10', icon: ShieldCheck }
-            ].map(({ role, label, color, icon: Icon }) => (
+            ].map(({ role, label, icon: Icon }) => (
               <Card key={role} className="bg-[#1a1a24] border-gray-800">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
