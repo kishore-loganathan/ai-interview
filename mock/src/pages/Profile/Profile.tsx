@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl, getImageUrl } from '@/config/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -154,7 +155,7 @@ export default function Profile() {
     setLoading(true);
     try {
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-      const res = await fetch('http://localhost:3001/api/auth/profile', {
+      const res = await fetch(getApiUrl('auth/profile'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(editData),
@@ -185,7 +186,7 @@ export default function Profile() {
       const formData = new FormData();
       formData.append('profilePicture', file);
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-      const res = await fetch('http://localhost:3001/api/auth/upload-profile-picture', {
+      const res = await fetch(getApiUrl('auth/upload-profile-picture'), {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -218,7 +219,7 @@ export default function Profile() {
     setLoading(true);
     try {
       const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
-      const res = await fetch('http://localhost:3001/api/auth/change-password', {
+      const res = await fetch(getApiUrl('auth/change-password'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({
@@ -260,10 +261,7 @@ export default function Profile() {
 
   // Helper to get full image URL (handles relative paths from backend)
   const getProfileImageUrl = (path: string | null | undefined): string | undefined => {
-    if (!path) return undefined;
-    if (path.startsWith('http')) return path; // already full URL
-    const apiBase = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3001';
-    return `${apiBase}${path}`;
+    return getImageUrl(path);
   };
 
   if (!profile || !stats) {

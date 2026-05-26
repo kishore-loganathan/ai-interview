@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { adminAPI } from '@/services/api';
+import { getImageUrl } from '@/config/api';
 import { Search, MoreVertical, Trash2, Ban, CheckCircle, Shield, ShieldCheck, User } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -197,7 +198,7 @@ const AdminUsers = () => {
                         <div className="flex items-center gap-3">
                           {user.profilePicture ? (
                             <img 
-                              src={`http://localhost:3001${user.profilePicture}`} 
+                              src={getImageUrl(user.profilePicture)} 
                               alt={user.name}
                               className="w-10 h-10 rounded-full object-cover"
                             />

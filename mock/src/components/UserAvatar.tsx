@@ -1,6 +1,8 @@
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
+import { getImageUrl } from '@/config/api';
+
 interface UserAvatarProps {
   size?: 'sm' | 'default' | 'lg';
   className?: string;
@@ -41,10 +43,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   };
 
   const getProfileImageUrl = (path: string | null): string | undefined => {
-    if (!path) return undefined;
-    if (path.startsWith('http')) return path;
-    const apiBase = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3001';
-    return `${apiBase}${path}`;
+    return getImageUrl(path);
   };
 
   const imageUrl = getProfileImageUrl(profilePicture);

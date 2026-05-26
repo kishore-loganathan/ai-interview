@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { MicIcon, MicOffIcon, Volume2Icon, VolumeXIcon, FileTextIcon, Settings2 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getApiUrl } from '@/config/api';
 import { Button } from '@/components/ui/button';
 import { speechAPI } from '@/services/api';
 
@@ -237,7 +238,7 @@ const InterviewPage = () => {
 
     const fetchQuestions = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/interview/generate-questions', { // Changed API endpoint
+        const response = await fetch(getApiUrl('interview/generate-questions'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -293,7 +294,7 @@ const InterviewPage = () => {
     const token = localStorage.getItem('accessToken') || localStorage.getItem('token');
 
     try {
-      const response = await fetch('http://localhost:3001/api/interview/score-interview', {
+      const response = await fetch(getApiUrl('interview/score-interview'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
